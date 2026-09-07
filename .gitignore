@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.so
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data — không commit data thô lên GitHub
+data/raw/
+data/processed/
+*.csv
+*.json
+*.xlsx
+*.parquet
+
+# Models — file lớn
+models/*.pkl
+models/*.joblib
+models/*.pt
+models/*.bin
+
+# Secrets
+.env
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
