@@ -19,6 +19,7 @@ env/
 # Data — không commit data thô lên GitHub
 data/raw/
 data/processed/
+data.zip
 *.csv
 *.json
 *.xlsx
@@ -33,6 +34,13 @@ models/*.bin
 # Secrets
 .env
 *.env
+
+# Office temp files
+~$*
+
+# Template và tài liệu nộp (chứa thông tin cá nhân)
+*.docx
+*.pdf
 
 # OS
 .DS_Store
