@@ -1,53 +1,49 @@
-# Vietnamese Sentiment Detection
+# Vietnamese Fine-grained Emotion Detection
 
-Phat hien cam xuc cua van ban tieng Viet — DAP391m project, FPT University, T9-T11/2026.
-
-## Problem Statement
-
-TODO: Phat bieu bai toan cu the sau khi nhom thong nhat.
+Phat hien cam xuc chi tiet van ban tieng Viet — DAP391m project, FPT University, T9-T11/2026.
 
 ## Dataset
 
-UIT-VSFC (Vietnamese Students Feedback Corpus)
-- Source: University of Information Technology, VNUHCM
-- Labels: TODO (positive/negative/neutral hoac multi-class emotion)
-- Size: TODO
+ViGoEmotions (EACL 2026)
+- 20,664 binh luan mang xa hoi tieng Viet
+- 27 nhan cam xuc chi tiet (multi-label)
+- Split: train 16,531 / val 2,066 / test 2,067
+- Baseline (ViSoBERT): F1-macro 61.50%, F1-weighted 63.26%
 
 ## Project Structure
 
 ```
 data/
-  raw/          # Du lieu goc chua xu ly — KHÔNG commit len GitHub
-  processed/    # Du lieu da clean, tokenize, encode
+  raw/          # Du lieu goc — KHONG commit len GitHub
+  processed/    # Du lieu da clean, tokenize
 notebooks/      # EDA, experiments, visualization
 src/            # Source code (preprocessing, features, model, evaluation)
-models/         # Saved model files — KHÔNG commit file lon len GitHub
-reports/        # Bao cao, hinh anh, ket qua thi nghiem
+models/         # Saved model files — KHONG commit file lon
+reports/        # Bao cao, figures, ket qua
+papers/         # Paper tham khao
+School_docs/    # Tai lieu tu giang vien — KHONG commit len GitHub
 ```
 
 ## Pipeline
 
-1. Data collection & understanding
-2. Text preprocessing (lowercase, remove noise, tokenize tieng Viet)
-3. EDA (class distribution, text length, word frequency)
-4. Feature extraction (TF-IDF baseline)
-5. Model training & evaluation (Logistic Regression → XGBoost → PhoBERT)
-6. Comparison with published baselines (UIT-VSFC paper)
+1. EDA: label distribution, text length, co-occurrence, class imbalance
+2. Preprocessing: lowercase, remove noise, xu ly emoji, tokenize (underthesea)
+3. Baseline: TF-IDF + classical ML (OneVsRest)
+4. Nang cao: PhoBERT / ViSoBERT / CafeBERT fine-tuning
+5. Evaluation: F1-macro, F1-weighted — compare voi EACL 2026 paper
 
 ## Results
 
 TODO: Dien vao sau khi co ket qua thi nghiem.
 
-| Model | Accuracy | F1 |
+| Model | F1-macro | F1-weighted |
 |---|---|---|
 | TF-IDF + LR (baseline) | - | - |
-| TF-IDF + XGBoost | - | - |
 | PhoBERT fine-tuned | - | - |
+| ViSoBERT fine-tuned | - | - |
 
 ## Team
 
-TODO
-
-## References
-
-- UIT-VSFC paper: TODO them citation
+- Pham Hoang Gia Phuc — Research & Report
+- Nguyen Ha Anh Khoa — Modelling
+- Pham Phu Quy — Visualization & App

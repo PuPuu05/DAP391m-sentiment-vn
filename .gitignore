@@ -38,7 +38,8 @@ models/*.bin
 # Office temp files
 ~$*
 
-# Template và tài liệu nộp (chứa thông tin cá nhân)
+# Tài liệu từ giảng viên và nộp bài (chứa thông tin cá nhân)
+School_docs/
 *.docx
 *.pdf
 
