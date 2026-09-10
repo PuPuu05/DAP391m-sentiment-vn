@@ -40,6 +40,7 @@ models/*.bin
 
 # Tài liệu từ giảng viên và nộp bài (chứa thông tin cá nhân)
 School_docs/
+CLAUDE.md
 *.docx
 *.pdf
 
