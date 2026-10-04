@@ -47,3 +47,6 @@ CLAUDE.md
 # OS
 .DS_Store
 Thumbs.db
+
+# ViGoEmotions repo -- contains corpus dataset
+ViGoEmotions/
