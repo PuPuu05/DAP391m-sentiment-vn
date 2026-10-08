@@ -50,3 +50,6 @@ Thumbs.db
 
 # ViGoEmotions repo -- contains corpus dataset
 ViGoEmotions/
+
+# Local context files -- not for git
+PROJECT_CONTEXT.md
