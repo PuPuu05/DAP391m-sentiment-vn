@@ -53,3 +53,9 @@ ViGoEmotions/
 
 # Local context files -- not for git
 PROJECT_CONTEXT.md
+
+# Runs — chỉ commit artifact nhẹ (probs .npy, config/history .json, notebook); KHÔNG commit checkpoint
+runs/**/*.pt
+runs/**/DONE
+!runs/**/*.json
+!runs/**/*.xlsx
