@@ -1,0 +1,22 @@
+{
+  "seed": 42,
+  "epochs": 12,
+  "batch_size": 32,
+  "micro_batch": 8,
+  "grad_accum": 4,
+  "lr": 2e-05,
+  "max_len": 200,
+  "threshold": 0.5,
+  "model_name": "uitnlp/CafeBERT",
+  "use_pyvi": false,
+  "pooling": "pooler",
+  "use_amp": true,
+  "grad_ckpt": true,
+  "dynamic_padding": true,
+  "loss": "bce_pos_weight",
+  "smoke": false,
+  "optimizer": "adafactor",
+  "freeze_word_embeddings": true,
+  "label_scheme": "ekman7",
+  "data_tag": "data_ekman7"
+}
