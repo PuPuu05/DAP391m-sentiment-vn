@@ -1,0 +1,22 @@
+{
+  "seed": 42,
+  "epochs": 12,
+  "batch_size": 32,
+  "micro_batch": 32,
+  "grad_accum": 1,
+  "lr": 3e-05,
+  "max_len": 200,
+  "threshold": 0.5,
+  "model_name": "xlm-roberta-base",
+  "use_pyvi": false,
+  "pooling": "pooler",
+  "use_amp": true,
+  "grad_ckpt": false,
+  "dynamic_padding": true,
+  "loss": "bce_pos_weight",
+  "smoke": false,
+  "optimizer": "adamw",
+  "freeze_word_embeddings": true,
+  "label_scheme": "ekman7",
+  "data_tag": "data_ekman7"
+}

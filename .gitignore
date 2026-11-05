@@ -53,3 +53,13 @@ ViGoEmotions/
 
 # Local context files -- not for git
 PROJECT_CONTEXT.md
+
+# Runs — commit lightweight experiment artifacts
+runs/**/*.pt
+runs/**/*.pth
+runs/**/DONE
+
+# Allow experiment metadata and probabilities
+!runs/**/*.json
+!runs/**/*.npy
+!runs/**/*.xlsx
