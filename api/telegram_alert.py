@@ -1,4 +1,5 @@
 import os
+import html as _html
 import httpx
 from dotenv import load_dotenv
 
@@ -22,13 +23,14 @@ async def send_telegram_alert(text: str, scores: dict[str, float]) -> bool:
 
     triggered = [l for l in ALERT_LABELS if scores.get(l, 0.0) >= ALERT_THRESHOLD]
     score_str = ", ".join(f"{l}={scores[l]:.2f}" for l in triggered)
-    preview   = text[:200].replace("_", "\\_").replace("*", "\\*")
+    # html.escape() đảm bảo text người dùng không phá vỡ HTML markup
+    preview = _html.escape(text[:200])
 
     message = (
-        f"*Emotion Alert*\n"
-        f"Triggered: `{', '.join(triggered)}`\n"
-        f"Scores: `{score_str}`\n"
-        f"Text: _{preview}_"
+        f"<b>Emotion Alert</b>\n"
+        f"Triggered: <code>{', '.join(triggered)}</code>\n"
+        f"Scores: <code>{score_str}</code>\n"
+        f"Text: {preview}"
     )
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -37,14 +39,15 @@ async def send_telegram_alert(text: str, scores: dict[str, float]) -> bool:
             resp = await client.post(url, json={
                 "chat_id": CHAT_ID,
                 "text": message,
-                "parse_mode": "Markdown",
+                "parse_mode": "HTML",
             })
         success = resp.status_code == 200
         if success:
             print(f"[alert] Telegram sent — triggered: {triggered}")
         else:
-            print(f"[alert] Telegram failed: {resp.text}")
+            print(f"[alert] Telegram failed — status: {resp.status_code}")
         return success
     except Exception as e:
-        print(f"[alert] Telegram error: {e}")
+        # Không log URL (chứa token) hay nội dung exception chi tiết
+        print(f"[alert] Telegram error: {type(e).__name__}")
         return False
