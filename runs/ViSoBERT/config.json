@@ -9,5 +9,7 @@
   "use_pyvi": true,
   "pooling": "pooler",
   "use_amp": false,
-  "smoke": false
+  "smoke": false,
+  "label_scheme": "ekman7",
+  "data_tag": "data_ekman7"
 }
