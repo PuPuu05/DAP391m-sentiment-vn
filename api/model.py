@@ -5,7 +5,7 @@ from pathlib import Path
 
 LABEL_NAMES = ["joy", "sadness", "anger", "fear", "surprise", "disgust", "neutral"]
 MODEL_NAME  = "uitnlp/CafeBERT"
-CKPT_PATH   = Path(__file__).parent.parent / "runs" / "CafeBERT" / "best.pt"
+CKPT_PATH   = Path(__file__).parent.parent / "runs" / "CafeBERT" / "best" / "best.pt"
 MAX_LEN     = 200
 THRESHOLD   = 0.5
 
