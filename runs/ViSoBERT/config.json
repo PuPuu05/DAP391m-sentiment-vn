@@ -1,0 +1,13 @@
+{
+  "seed": 42,
+  "epochs": 12,
+  "batch_size": 32,
+  "lr": 5e-05,
+  "max_len": 200,
+  "threshold": 0.5,
+  "model_name": "uitnlp/visobert",
+  "use_pyvi": true,
+  "pooling": "pooler",
+  "use_amp": false,
+  "smoke": false
+}

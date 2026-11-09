@@ -1,0 +1,18 @@
+{
+  "seed": 42,
+  "epochs": 12,
+  "batch_size": 32,
+  "lr": 5e-05,
+  "max_len": 200,
+  "threshold": 0.5,
+  "model_name": "vinai/phobert-base-v2",
+  "model_tag": "phobert",
+  "text_col": "model_text",
+  "pooling": "mean",
+  "use_amp": false,
+  "smoke": false,
+  "label_scheme": "ekman7",
+  "data_tag": "data_ekman7",
+  "early_stop_patience": 3,
+  "early_stop_min_delta": 0.0
+}
