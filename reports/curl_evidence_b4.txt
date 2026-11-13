@@ -1,0 +1,24 @@
+﻿==========================================================
+ B4 Curl Evidence — DAP391m Nhom 8 | Ekman-7
+ Timestamp : 2026-11-14 01:17:10 +07:00
+ Server    : FastAPI uvicorn 127.0.0.1:8000
+ Model     : CafeBERT fine-tuned on ViGoEmotions-Ekman7
+==========================================================
+
+[1] GET /health
+> curl http://127.0.0.1:8000/health
+{"status":"ok","model":"CafeBERT-Ekman7","device":"cpu","labels":["joy","sadness","anger","fear","surprise","disgust","neutral"]}
+
+[2] POST /predict — joy sample
+> curl -X POST /predict -d '{"text":"Hom nay toi rat vui vi doi bong cua toi da thang tran chung ket!"}'
+{"text":"Hom nay toi rat vui vi doi bong cua toi da thang tran chung ket!","emotions":["joy"],"scores":{"joy":0.998,"sadness":0.0113,"anger":0.0042,"fear":0.0015,"surprise":0.001,"disgust":0.0017,"neutral":0.0021},"alert_sent":false}
+
+[3] POST /predict — fear/anger trigger (alert_sent=true)
+> curl -X POST /predict -d '{"text":"Toi rat tuc gian vi bi xu ly bat cong, day la su ky thi ro rang va co tinh!"}'
+{"text":"Toi rat tuc gian vi bi xu ly bat cong, day la su ky thi ro rang va co tinh!","emotions":["joy","sadness","anger","fear"],"scores":{"joy":0.5243,"sadness":0.8503,"anger":0.6806,"fear":0.7017,"surprise":0.0043,"disgust":0.0048,"neutral":0.0007},"alert_sent":true}
+
+----------------------------------------------------------
+ Note: alert_sent=true in [3] because fear=0.7017 >= 0.70
+ Telegram alert sent to configured CHAT_ID (see .env).
+ Token stored in .env (gitignored) — never hardcoded.
+==========================================================
