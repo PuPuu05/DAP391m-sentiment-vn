@@ -1,0 +1,273 @@
+<!doctype html>
+<title>Emotion Demo</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root {
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --border: #dde1e7;
+  --text: #1a1a2e;
+  --muted: #64748b;
+  --primary: #1565C0;
+  --primary-light: #e3f2fd;
+  color-scheme: light;
+}
+[data-theme="dark"], @media (prefers-color-scheme: dark) { :root {
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --border: #2d3141;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --primary: #90CAF9;
+  --primary-light: #1a2744;
+  color-scheme: dark;
+}}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1117; --card: #1a1d27; --border: #2d3141;
+    --text: #e2e8f0; --muted: #94a3b8; --primary: #90CAF9; --primary-light: #1a2744;
+    color-scheme: dark;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg); color: var(--text); min-height: 100vh;
+  padding: 24px 16px 56px;
+}
+.container { max-width: 760px; margin: 0 auto; }
+header { margin-bottom: 24px; }
+header h1 { font-size: 1.45rem; font-weight: 700; color: var(--primary); }
+header p  { font-size: 0.82rem; color: var(--muted); margin-top: 5px; }
+header code {
+  background: var(--primary-light); color: var(--primary);
+  border-radius: 4px; padding: 1px 6px; font-size: 0.8rem;
+}
+
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; margin-bottom: 16px;
+}
+
+textarea {
+  width: 100%; min-height: 96px;
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px 14px; font-size: 0.95rem; font-family: inherit;
+  color: var(--text); background: var(--bg); resize: vertical; outline: none;
+  transition: border-color 0.2s;
+}
+textarea:focus { border-color: var(--primary); }
+
+.row { display: flex; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+#predict-btn {
+  background: var(--primary); color: #fff; border: none;
+  border-radius: 8px; padding: 10px 26px;
+  font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  transition: opacity 0.2s;
+}
+#predict-btn:hover { opacity: 0.88; }
+#predict-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.hint { font-size: 0.78rem; color: var(--muted); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; align-items: center; }
+.chips span { font-size: 0.78rem; color: var(--muted); }
+.chip {
+  background: transparent; border: 1px solid var(--border);
+  border-radius: 20px; padding: 3px 11px;
+  font-size: 0.78rem; cursor: pointer; color: var(--text);
+  transition: background 0.15s;
+}
+.chip:hover { background: var(--border); }
+
+#status { font-size: 0.84rem; color: var(--muted); }
+#status.err { color: #ef5350; }
+
+/* Results */
+.badges { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 13px; border-radius: 20px;
+  font-size: 0.84rem; font-weight: 600; border: 1px solid transparent;
+}
+.badge-ok   { background: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
+.badge-warn { background: #ffebee; color: #c62828; border-color: #ef9a9a; }
+
+#prob-chart { width: 100%; }
+
+.interp {
+  border-left: 3px solid var(--primary); padding: 10px 14px;
+  border-radius: 0 7px 7px 0; background: var(--primary-light);
+  font-size: 0.88rem; line-height: 1.65; margin-top: 14px;
+}
+.interp strong { display: block; margin-bottom: 3px; font-size: 0.9rem; }
+
+details { margin-top: 12px; }
+summary { font-size: 0.78rem; color: var(--muted); cursor: pointer; user-select: none; }
+pre {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 7px;
+  padding: 12px; font-size: 0.78rem; overflow-x: auto; margin-top: 7px; color: var(--text);
+}
+</style>
+
+<div class="container">
+  <header>
+    <h1>Phan tich cam xuc tieng Viet</h1>
+    <p>DAP391m Nhom 8 &nbsp;·&nbsp; CafeBERT Ekman-7 &nbsp;·&nbsp;
+       <code>POST /predict</code> &nbsp;·&nbsp; threshold = 0.5 &nbsp;·&nbsp;
+       Canh bao Telegram khi anger / disgust / fear &ge; 0.70</p>
+  </header>
+
+  <div class="card">
+    <textarea id="inp" placeholder="Nhap van ban tieng Viet can phan tich cam xuc..."></textarea>
+    <div class="row">
+      <button id="predict-btn" onclick="run()">Phan tich</button>
+      <span id="status"></span>
+      <span class="hint">Ctrl+Enter de gui nhanh</span>
+    </div>
+    <div class="chips">
+      <span>Vi du:</span>
+      <button class="chip" onclick="ex('Toi rat vui khi nhan duoc tin tot lanh nay!')">vui ve</button>
+      <button class="chip" onclick="ex('Toi rat tuc gian vi bi doi xu khong cong bang!')">tuc gian</button>
+      <button class="chip" onclick="ex('Tran lu lut khien toi rat so hai va lo lang.')">so hai</button>
+      <button class="chip" onclick="ex('That buon khi xa nhung nguoi than yeu.')">buon ba</button>
+      <button class="chip" onclick="ex('Toi thay rat ghe tom truoc hanh vi do.')">ghe tom</button>
+    </div>
+  </div>
+
+  <div id="results" hidden>
+    <div class="card">
+      <div class="badges">
+        <span class="badge" id="b-top"></span>
+        <span class="badge" id="b-alert"></span>
+      </div>
+      <div id="prob-chart"></div>
+      <div class="interp" id="interp"></div>
+      <details>
+        <summary>Raw JSON response</summary>
+        <pre id="raw"></pre>
+      </details>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
+<script>
+const COLORS = {
+  joy:      '#FFC107',
+  sadness:  '#42A5F5',
+  anger:    '#EF5350',
+  fear:     '#AB47BC',
+  surprise: '#FF7043',
+  disgust:  '#66BB6A',
+  neutral:  '#90A4AE',
+};
+
+const MSGS = {
+  joy:      { title: 'Noi dung vui ve, tich cuc.', body: 'Khong can can thiep.' },
+  sadness:  { title: 'Noi dung the hien noi buon.', body: 'Can nhac ho tro cam xuc cho nguoi dung.' },
+  anger:    { title: 'Noi dung the hien su tuc gian.', body: 'Nen kiem duyet hoac can thiep kip thoi.' },
+  fear:     { title: 'Noi dung the hien noi so hai.', body: 'Nguong canh bao se kich hoat neu xac suat >= 0.70.' },
+  surprise: { title: 'Noi dung the hien su ngac nhien.', body: 'Thuong kem cam xuc khac -- xem them ngu canh.' },
+  disgust:  { title: 'Noi dung the hien su ghe tom.', body: 'Nguong canh bao se kich hoat neu xac suat >= 0.70.' },
+  neutral:  { title: 'Noi dung trung lap.', body: 'Khong co cam xuc ro rang, khong can hanh dong.' },
+};
+
+function ex(t) { document.getElementById('inp').value = t; }
+
+async function run() {
+  const text = document.getElementById('inp').value.trim();
+  if (!text) return;
+  const btn = document.getElementById('predict-btn');
+  const st  = document.getElementById('status');
+  btn.disabled = true;
+  st.className = '';
+  st.textContent = 'Dang xu ly...';
+  document.getElementById('results').hidden = true;
+
+  try {
+    const res = await fetch('/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    });
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.detail || `HTTP ${res.status}`);
+    }
+    renderResults(await res.json());
+    st.textContent = '';
+  } catch (e) {
+    st.className = 'err';
+    st.textContent = `Loi: ${e.message}. Kiem tra FastAPI dang chay tai port 8000.`;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderResults(d) {
+  const sorted = Object.entries(d.scores).sort((a, b) => b[1] - a[1]);
+  const [topLabel, topScore] = sorted[0];
+
+  // Top emotion badge
+  const bTop = document.getElementById('b-top');
+  bTop.textContent = `${topLabel.toUpperCase()}  ${(topScore * 100).toFixed(1)}%`;
+  bTop.style.cssText = `background:${COLORS[topLabel]}22;color:${COLORS[topLabel]};border-color:${COLORS[topLabel]}88;`;
+
+  // Alert badge
+  const bAl = document.getElementById('b-alert');
+  bAl.className = `badge ${d.alert_sent ? 'badge-warn' : 'badge-ok'}`;
+  bAl.textContent = d.alert_sent ? 'CANH BAO TELEGRAM DA GUI' : 'Khong co canh bao';
+
+  // Plotly bar
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const plotBg = isDark ? '#1a1d27' : '#ffffff';
+  const txtC   = isDark ? '#e2e8f0' : '#1a1a2e';
+  const gridC  = isDark ? '#2d3141' : '#e0e4ea';
+
+  Plotly.newPlot('prob-chart', [{
+    type: 'bar', orientation: 'h',
+    x: sorted.map(([, v]) => v),
+    y: sorted.map(([k]) => k),
+    text: sorted.map(([, v]) => `${(v * 100).toFixed(1)}%`),
+    textposition: 'outside', cliponaxis: false,
+    marker: { color: sorted.map(([k]) => COLORS[k]), opacity: 0.88 },
+    hovertemplate: '%{y}: %{x:.4f}<extra></extra>',
+  }], {
+    margin: { t: 8, r: 64, b: 44, l: 80 },
+    xaxis: {
+      range: [0, 1.18], tickformat: '.0%',
+      gridcolor: gridC, zeroline: false,
+      title: { text: 'Xac suat', font: { size: 11, color: txtC } },
+    },
+    yaxis: { autorange: 'reversed', tickfont: { size: 12 } },
+    paper_bgcolor: plotBg, plot_bgcolor: plotBg,
+    font: { color: txtC, size: 12 },
+    shapes: [{
+      type: 'line', x0: 0.5, x1: 0.5, y0: -0.5, y1: 6.5,
+      line: { color: '#888', width: 1.2, dash: 'dot' },
+    }],
+    height: 256,
+    annotations: [{
+      x: 0.5, y: 6.5, xref: 'x', yref: 'y',
+      text: 'threshold', showarrow: false,
+      font: { size: 10, color: '#888' }, yanchor: 'bottom',
+    }],
+  }, { displayModeBar: false, responsive: true });
+
+  // Interpretation
+  const m = MSGS[topLabel] || { title: '', body: '' };
+  const extra = d.emotions.filter(e => e !== topLabel);
+  document.getElementById('interp').innerHTML =
+    `<strong>Cam xuc chinh: ${topLabel} (${(topScore * 100).toFixed(1)}%)</strong>` +
+    `${m.title} ${m.body}` +
+    (extra.length ? `<br><span style="font-size:.82rem;opacity:.8">Phat hien them: ${extra.join(', ')}</span>` : '');
+
+  document.getElementById('raw').textContent = JSON.stringify(d, null, 2);
+  document.getElementById('results').hidden = false;
+}
+
+document.getElementById('inp').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.ctrlKey) run();
+});
+</script>

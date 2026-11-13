@@ -1,7 +1,12 @@
 import torch
 from contextlib import asynccontextmanager
+from pathlib import Path
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
+
+_STATIC = Path(__file__).parent / "static"
 
 from .model import load_model, get_tokenizer, LABEL_NAMES, MAX_LEN, THRESHOLD
 from .telegram_alert import should_alert, send_telegram_alert
@@ -24,6 +29,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+app.mount("/static", StaticFiles(directory=_STATIC), name="static")
+
 
 # ---------- schemas ----------
 
@@ -39,6 +46,11 @@ class PredictResponse(BaseModel):
 
 
 # ---------- routes ----------
+
+@app.get("/")
+def root():
+    return RedirectResponse(url="/static/demo.html")
+
 
 @app.get("/health")
 def health():
