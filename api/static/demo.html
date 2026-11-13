@@ -13,16 +13,6 @@
   --primary-light: #e3f2fd;
   color-scheme: light;
 }
-[data-theme="dark"], @media (prefers-color-scheme: dark) { :root {
-  --bg: #0f1117;
-  --card: #1a1d27;
-  --border: #2d3141;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --primary: #90CAF9;
-  --primary-light: #1a2744;
-  color-scheme: dark;
-}}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0f1117; --card: #1a1d27; --border: #2d3141;
@@ -44,12 +34,10 @@ header code {
   background: var(--primary-light); color: var(--primary);
   border-radius: 4px; padding: 1px 6px; font-size: 0.8rem;
 }
-
 .card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 12px; padding: 20px; margin-bottom: 16px;
 }
-
 textarea {
   width: 100%; min-height: 96px;
   border: 1px solid var(--border); border-radius: 8px;
@@ -58,7 +46,6 @@ textarea {
   transition: border-color 0.2s;
 }
 textarea:focus { border-color: var(--primary); }
-
 .row { display: flex; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
 #predict-btn {
   background: var(--primary); color: #fff; border: none;
@@ -69,7 +56,6 @@ textarea:focus { border-color: var(--primary); }
 #predict-btn:hover { opacity: 0.88; }
 #predict-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .hint { font-size: 0.78rem; color: var(--muted); }
-
 .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; align-items: center; }
 .chips span { font-size: 0.78rem; color: var(--muted); }
 .chip {
@@ -79,11 +65,8 @@ textarea:focus { border-color: var(--primary); }
   transition: background 0.15s;
 }
 .chip:hover { background: var(--border); }
-
 #status { font-size: 0.84rem; color: var(--muted); }
 #status.err { color: #ef5350; }
-
-/* Results */
 .badges { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
@@ -92,16 +75,13 @@ textarea:focus { border-color: var(--primary); }
 }
 .badge-ok   { background: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
 .badge-warn { background: #ffebee; color: #c62828; border-color: #ef9a9a; }
-
 #prob-chart { width: 100%; }
-
 .interp {
   border-left: 3px solid var(--primary); padding: 10px 14px;
   border-radius: 0 7px 7px 0; background: var(--primary-light);
   font-size: 0.88rem; line-height: 1.65; margin-top: 14px;
 }
 .interp strong { display: block; margin-bottom: 3px; font-size: 0.9rem; }
-
 details { margin-top: 12px; }
 summary { font-size: 0.78rem; color: var(--muted); cursor: pointer; user-select: none; }
 pre {
@@ -112,26 +92,26 @@ pre {
 
 <div class="container">
   <header>
-    <h1>Phan tich cam xuc tieng Viet</h1>
-    <p>DAP391m Nhom 8 &nbsp;·&nbsp; CafeBERT Ekman-7 &nbsp;·&nbsp;
+    <h1>Phân tích cảm xúc tiếng Việt</h1>
+    <p>DAP391m Nhóm 8 &nbsp;·&nbsp; CafeBERT Ekman-7 &nbsp;·&nbsp;
        <code>POST /predict</code> &nbsp;·&nbsp; threshold = 0.5 &nbsp;·&nbsp;
-       Canh bao Telegram khi anger / disgust / fear &ge; 0.70</p>
+       Cảnh báo Telegram khi anger / disgust / fear &ge; 0.70</p>
   </header>
 
   <div class="card">
-    <textarea id="inp" placeholder="Nhap van ban tieng Viet can phan tich cam xuc..."></textarea>
+    <textarea id="inp" placeholder="Nhập văn bản tiếng Việt cần phân tích cảm xúc..."></textarea>
     <div class="row">
-      <button id="predict-btn" onclick="run()">Phan tich</button>
+      <button id="predict-btn" onclick="run()">Phân tích</button>
       <span id="status"></span>
-      <span class="hint">Ctrl+Enter de gui nhanh</span>
+      <span class="hint">Ctrl+Enter để gửi nhanh</span>
     </div>
     <div class="chips">
-      <span>Vi du:</span>
-      <button class="chip" onclick="ex('Toi rat vui khi nhan duoc tin tot lanh nay!')">vui ve</button>
-      <button class="chip" onclick="ex('Toi rat tuc gian vi bi doi xu khong cong bang!')">tuc gian</button>
-      <button class="chip" onclick="ex('Tran lu lut khien toi rat so hai va lo lang.')">so hai</button>
-      <button class="chip" onclick="ex('That buon khi xa nhung nguoi than yeu.')">buon ba</button>
-      <button class="chip" onclick="ex('Toi thay rat ghe tom truoc hanh vi do.')">ghe tom</button>
+      <span>Ví dụ nhanh:</span>
+      <button class="chip" onclick="ex('Tôi rất vui khi nhận được tin tốt lành này!')">vui vẻ</button>
+      <button class="chip" onclick="ex('Tôi rất tức giận vì bị đối xử không công bằng!')">tức giận</button>
+      <button class="chip" onclick="ex('Trận lũ lụt khiến tôi rất sợ hãi và lo lắng.')">sợ hãi</button>
+      <button class="chip" onclick="ex('Thật buồn khi xa những người thân yêu.')">buồn bã</button>
+      <button class="chip" onclick="ex('Tôi thấy rất ghê tởm trước hành vi đó.')">ghê tởm</button>
     </div>
   </div>
 
@@ -164,13 +144,13 @@ const COLORS = {
 };
 
 const MSGS = {
-  joy:      { title: 'Noi dung vui ve, tich cuc.', body: 'Khong can can thiep.' },
-  sadness:  { title: 'Noi dung the hien noi buon.', body: 'Can nhac ho tro cam xuc cho nguoi dung.' },
-  anger:    { title: 'Noi dung the hien su tuc gian.', body: 'Nen kiem duyet hoac can thiep kip thoi.' },
-  fear:     { title: 'Noi dung the hien noi so hai.', body: 'Nguong canh bao se kich hoat neu xac suat >= 0.70.' },
-  surprise: { title: 'Noi dung the hien su ngac nhien.', body: 'Thuong kem cam xuc khac -- xem them ngu canh.' },
-  disgust:  { title: 'Noi dung the hien su ghe tom.', body: 'Nguong canh bao se kich hoat neu xac suat >= 0.70.' },
-  neutral:  { title: 'Noi dung trung lap.', body: 'Khong co cam xuc ro rang, khong can hanh dong.' },
+  joy:      { title: 'Nội dung vui vẻ, tích cực.',              body: 'Không cần can thiệp.' },
+  sadness:  { title: 'Nội dung thể hiện nỗi buồn.',             body: 'Cân nhắc hỗ trợ cảm xúc cho người dùng.' },
+  anger:    { title: 'Nội dung thể hiện sự tức giận.',          body: 'Nên kiểm duyệt hoặc can thiệp kịp thời.' },
+  fear:     { title: 'Nội dung thể hiện nỗi sợ hãi.',           body: 'Ngưỡng cảnh báo sẽ kích hoạt nếu xác suất ≥ 0.70.' },
+  surprise: { title: 'Nội dung thể hiện sự ngạc nhiên.',        body: 'Thường kèm cảm xúc khác -- xem thêm ngữ cảnh.' },
+  disgust:  { title: 'Nội dung thể hiện sự ghê tởm.',           body: 'Ngưỡng cảnh báo sẽ kích hoạt nếu xác suất ≥ 0.70.' },
+  neutral:  { title: 'Nội dung trung lập, không có cảm xúc rõ ràng.', body: 'Không cần hành động.' },
 };
 
 function ex(t) { document.getElementById('inp').value = t; }
@@ -182,7 +162,7 @@ async function run() {
   const st  = document.getElementById('status');
   btn.disabled = true;
   st.className = '';
-  st.textContent = 'Dang xu ly...';
+  st.textContent = 'Đang xử lý...';
   document.getElementById('results').hidden = true;
 
   try {
@@ -199,7 +179,7 @@ async function run() {
     st.textContent = '';
   } catch (e) {
     st.className = 'err';
-    st.textContent = `Loi: ${e.message}. Kiem tra FastAPI dang chay tai port 8000.`;
+    st.textContent = `Lỗi: ${e.message}. Kiểm tra FastAPI đang chạy tại port 8000.`;
   } finally {
     btn.disabled = false;
   }
@@ -209,17 +189,14 @@ function renderResults(d) {
   const sorted = Object.entries(d.scores).sort((a, b) => b[1] - a[1]);
   const [topLabel, topScore] = sorted[0];
 
-  // Top emotion badge
   const bTop = document.getElementById('b-top');
   bTop.textContent = `${topLabel.toUpperCase()}  ${(topScore * 100).toFixed(1)}%`;
   bTop.style.cssText = `background:${COLORS[topLabel]}22;color:${COLORS[topLabel]};border-color:${COLORS[topLabel]}88;`;
 
-  // Alert badge
   const bAl = document.getElementById('b-alert');
   bAl.className = `badge ${d.alert_sent ? 'badge-warn' : 'badge-ok'}`;
-  bAl.textContent = d.alert_sent ? 'CANH BAO TELEGRAM DA GUI' : 'Khong co canh bao';
+  bAl.textContent = d.alert_sent ? 'Cảnh báo Telegram đã gửi' : 'Không có cảnh báo';
 
-  // Plotly bar
   const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const plotBg = isDark ? '#1a1d27' : '#ffffff';
   const txtC   = isDark ? '#e2e8f0' : '#1a1a2e';
@@ -238,7 +215,7 @@ function renderResults(d) {
     xaxis: {
       range: [0, 1.18], tickformat: '.0%',
       gridcolor: gridC, zeroline: false,
-      title: { text: 'Xac suat', font: { size: 11, color: txtC } },
+      title: { text: 'Xác suất', font: { size: 11, color: txtC } },
     },
     yaxis: { autorange: 'reversed', tickfont: { size: 12 } },
     paper_bgcolor: plotBg, plot_bgcolor: plotBg,
@@ -247,21 +224,20 @@ function renderResults(d) {
       type: 'line', x0: 0.5, x1: 0.5, y0: -0.5, y1: 6.5,
       line: { color: '#888', width: 1.2, dash: 'dot' },
     }],
-    height: 256,
     annotations: [{
       x: 0.5, y: 6.5, xref: 'x', yref: 'y',
       text: 'threshold', showarrow: false,
       font: { size: 10, color: '#888' }, yanchor: 'bottom',
     }],
+    height: 256,
   }, { displayModeBar: false, responsive: true });
 
-  // Interpretation
   const m = MSGS[topLabel] || { title: '', body: '' };
   const extra = d.emotions.filter(e => e !== topLabel);
   document.getElementById('interp').innerHTML =
-    `<strong>Cam xuc chinh: ${topLabel} (${(topScore * 100).toFixed(1)}%)</strong>` +
+    `<strong>Cảm xúc chính: ${topLabel} (${(topScore * 100).toFixed(1)}%)</strong>` +
     `${m.title} ${m.body}` +
-    (extra.length ? `<br><span style="font-size:.82rem;opacity:.8">Phat hien them: ${extra.join(', ')}</span>` : '');
+    (extra.length ? `<br><span style="font-size:.82rem;opacity:.8">Phát hiện thêm: ${extra.join(', ')}</span>` : '');
 
   document.getElementById('raw').textContent = JSON.stringify(d, null, 2);
   document.getElementById('results').hidden = false;
