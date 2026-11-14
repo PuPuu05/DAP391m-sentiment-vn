@@ -1,0 +1,19 @@
+===========================================================
+  DAP391m Nhom 8 — Submission Links
+  ViGoEmotions Fine-grained Emotion Detection (Ekman-7)
+  FPT University FA26 | 2026-11-14
+===========================================================
+
+GitHub Repository (Source Code + Notebooks)
+  https://github.com/PuPuu05/DAP391m-sentiment-vn
+
+Dataset (Google Drive)
+  [PENDING — upload ViGoEmotions_Ekman7 folder and paste link here]
+
+===========================================================
+  Team: Nhom 8
+  Members:
+    - Pham Hoang Gia Phuc   SE190403  (Report / LaTeX / API)
+    - [Khoa]                           (Model Training)
+    - [Quy]                            (API + App)
+===========================================================
