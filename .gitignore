@@ -57,7 +57,11 @@ PROJECT_CONTEXT.md
 # Runs — commit lightweight experiment artifacts
 runs/**/*.pt
 runs/**/*.pth
+runs/**/*.zip
 runs/**/DONE
+
+# Saved model directories (large)
+saved_models/
 
 # Allow experiment metadata and probabilities
 !runs/**/*.json
