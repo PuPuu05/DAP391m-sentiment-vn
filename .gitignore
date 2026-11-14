@@ -67,3 +67,4 @@ saved_models/
 !runs/**/*.json
 !runs/**/*.npy
 !runs/**/*.xlsx
+!reports/*.xlsx
