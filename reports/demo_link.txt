@@ -1,0 +1,21 @@
+===========================================================
+  DAP391m Nhom 8 — Demo App Links
+  ViGoEmotions Fine-grained Emotion Detection (Ekman-7)
+  FPT University FA26 | 2026-11-14
+===========================================================
+
+Video Demo (Google Drive)
+  [PENDING — upload video recording and paste link here]
+
+Demo App — Local
+  Command : uvicorn api.app:app --reload
+  URL     : http://localhost:8000
+  Model   : CafeBERT fine-tuned on ViGoEmotions-Ekman7
+  Endpoint: POST /predict  |  GET /health
+
+Demo App — Public (ngrok, dung trong buoi cham)
+  [PENDING — run: ngrok http 8000 → paste URL here]
+
+===========================================================
+  GitHub : https://github.com/PuPuu05/DAP391m-sentiment-vn
+===========================================================
